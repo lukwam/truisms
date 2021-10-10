@@ -16,8 +16,7 @@ def get_secret(name):
     }
     client = secretmanager_v1.SecretManagerServiceClient()
     response = client.access_secret_version(request=request)
-    payload = response.payload.decode()
-    return payload
+    return = response.payload.data.decode("utf-8")
 
 
 def save_install(response):
