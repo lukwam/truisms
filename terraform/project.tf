@@ -28,6 +28,18 @@ resource "google_project_service" "services" {
   project                    = google_project.project.project_id
 }
 
+resource "google_project_iam_member" "appengine" {
+  for_each = toset([
+    "roles/secretmanager.secretAccessor",
+  ])
+  project = google_project.project.project_id
+  role    = each.key
+  member  = "serviceAccount:${google_project.project.project_id}@appspot.gserviceaccount.com"
+  depends_on = [
+    google_project_service.services["appengine.googleapis.com"],
+  ]
+}
+
 resource "google_project_iam_member" "cloudbuild" {
   for_each = toset([
     "roles/appengine.appAdmin",

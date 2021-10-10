@@ -6,8 +6,18 @@ from google.cloud import secretmanager_v1
 from flask import redirect
 
 APP_ID = "AKZTKQ56Y"
-CLIENT_ID = os.environ.get("SLACK_CLIENT_ID")
-CLIENT_SECRET = os.environ.get("SLACK_CLIENT_SECRET")
+
+
+def get_secret(name):
+    """Return a secret version payload."""
+    project = os.environ.get("GCP_PROJECT")
+    request = {
+        "name": f"projects/{project}/secrets/{name}/versions/latest"
+    }
+    client = secretmanager_v1.SecretManagerServiceClient()
+    response = client.access_secret_version(request=request)
+    payload = response.payload.decode()
+    return payload
 
 
 def save_install(response):
@@ -24,12 +34,13 @@ def save_install(response):
 def slack_redirect(request):
     """Return a Truism."""
     code = request.args.get("code")
-
+    client_id = get_secret("slack-client-id")
+    client_secret = get_secret("slack-client-secret")
     url = "https://slack.com/api/oauth.v2.access"
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
     params = {
-        "client_id": CLIENT_ID,
-        "client_secret": CLIENT_SECRET,
+        "client_id": client_id,
+        "client_secret": client_secret,
         "code": code,
     }
 
