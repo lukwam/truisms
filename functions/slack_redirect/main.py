@@ -37,10 +37,12 @@ def slack_redirect(request):
     response = requests.post(url, headers=headers, params=params)
 
     # save install to firestore
-    save_install(response)
+    save_install(response.json())
 
     return redirect(f"https://slack.com/apps/{APP_ID}")
 
 
 if __name__ == "__main__":
-    slack_redirect(None)
+    class Request:
+        args = {"code": "fake-code"}
+    slack_redirect(Request())
