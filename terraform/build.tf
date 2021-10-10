@@ -25,18 +25,18 @@ resource "google_cloudbuild_trigger" "deploy-app" {
   ]
 }
 
-resource "google_cloudbuild_trigger" "deploy-update-function" {
+resource "google_cloudbuild_trigger" "deploy-assistant-function" {
   provider       = google-beta
-  name           = "deploy-update-function"
-  description    = "Deploy Update Function"
-  filename       = "functions/update/cloudbuild.yaml"
+  name           = "deploy-assistant-function"
+  description    = "Deploy Assistant Function"
+  filename       = "functions/assistant/cloudbuild.yaml"
   project        = google_project.project.project_id
   included_files = [
-    "functions/update/**",
+    "functions/assistant/**",
   ]
   ignored_files = [
-    "functions/update/*.md",
-    "functions/update/*.sh",
+    "functions/assistant/*.md",
+    "functions/assistant/*.sh",
   ]
 
   github {
@@ -45,10 +45,6 @@ resource "google_cloudbuild_trigger" "deploy-update-function" {
     push {
       branch = var.branch
     }
-  }
-
-  substitutions = {
-    _TRUISMS_BUCKET = google_storage_bucket.truisms.name
   }
 
   depends_on = [
@@ -130,6 +126,37 @@ resource "google_cloudbuild_trigger" "deploy-truism-function" {
     push {
       branch = var.branch
     }
+  }
+
+  depends_on = [
+    google_project_service.services["cloudbuild.googleapis.com"]
+  ]
+}
+
+resource "google_cloudbuild_trigger" "deploy-update-function" {
+  provider       = google-beta
+  name           = "deploy-update-function"
+  description    = "Deploy Update Function"
+  filename       = "functions/update/cloudbuild.yaml"
+  project        = google_project.project.project_id
+  included_files = [
+    "functions/update/**",
+  ]
+  ignored_files = [
+    "functions/update/*.md",
+    "functions/update/*.sh",
+  ]
+
+  github {
+    name     = var.repo
+    owner    = var.github_login
+    push {
+      branch = var.branch
+    }
+  }
+
+  substitutions = {
+    _TRUISMS_BUCKET = google_storage_bucket.truisms.name
   }
 
   depends_on = [
