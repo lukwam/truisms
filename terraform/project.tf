@@ -18,6 +18,7 @@ resource "google_project_service" "services" {
     "appengine.googleapis.com",
     "cloudbuild.googleapis.com",
     "cloudfunctions.googleapis.com",
+    "cloudresourcemanager.googleapis.com",
     "firestore.googleapis.com",
   ])
   service                    = each.key

@@ -1,12 +1,12 @@
 ---
 steps:
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
-    dir: functions/truism
+    dir: functions/slack
     entrypoint: gcloud
     args:
       - functions
       - deploy
-      - truism
+      - slack
       - --allow-unauthenticated
       - --memory=256MB
       - --project=${PROJECT_ID}

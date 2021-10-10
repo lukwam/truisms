@@ -56,6 +56,33 @@ resource "google_cloudbuild_trigger" "deploy-update-function" {
   ]
 }
 
+resource "google_cloudbuild_trigger" "deploy-slack-function" {
+  provider       = google-beta
+  name           = "deploy-slack-function"
+  description    = "Deploy Slack Function"
+  filename       = "functions/slack/cloudbuild.yaml"
+  project        = google_project.project.project_id
+  included_files = [
+    "functions/slack/**",
+  ]
+  ignored_files = [
+    "functions/slack/*.md",
+    "functions/slack/*.sh",
+  ]
+
+  github {
+    name     = var.repo
+    owner    = var.github_login
+    push {
+      branch = var.branch
+    }
+  }
+
+  depends_on = [
+    google_project_service.services["cloudbuild.googleapis.com"]
+  ]
+}
+
 resource "google_cloudbuild_trigger" "deploy-truism-function" {
   provider       = google-beta
   name           = "deploy-truism-function"
