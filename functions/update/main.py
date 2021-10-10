@@ -1,24 +1,72 @@
 """Update Cloud Function."""
+from google.cloud import firestore
+from google.cloud import storage
+
+
+def get_firestore_truisms():
+    """Return a list of Truisms from Firestore."""
+    client = firestore.Client()
+    ref = client.collection("truisms")
+    truisms = {}
+    for doc in ref.stream():
+        key = doc.id
+        truism = doc.to_dict()
+        truisms[key] = truism
+    return truisms
+
+
+def get_truisms(event):
+    """Return a list of Truisms from the storage object."""
+    bucket_name = event["bucket"]
+    file_name = event["file"]
+    blob = storage.Client().bucket(bucket_name).blob(file_name)
+    truisms = {}
+    for line in blob.download_as_string().decode().strip().split("\n"):
+        truism = line.strip()
+        if truism not in truisms:
+            truisms[truism] = {
+                "text": truism,
+                "words": sorted(set(truism.split(" "))),
+            }
+    return truisms
 
 
 def update(event, context):
-    """Background Cloud Function to be triggered by Cloud Storage.
-       This generic function logs relevant data when a file is changed.
+    """Update Truisms in Firestore."""
+    client = firestore.Client()
 
-    Args:
-        event (dict):  The dictionary with data specific to this type of event.
-                       The `data` field contains a description of the event in
-                       the Cloud Storage `object` format described here:
-                       https://cloud.google.com/storage/docs/json_api/v1/objects#resource
-        context (google.cloud.functions.Context): Metadata of triggering event.
-    Returns:
-        None; the output is written to Stackdriver Logging
-    """
+    truisms = get_truisms(event)
+    print(f"Truisms: {len(truisms)}")
 
-    print('Event ID: {}'.format(context.event_id))
-    print('Event type: {}'.format(context.event_type))
-    print('Bucket: {}'.format(event['bucket']))
-    print('File: {}'.format(event['name']))
-    print('Metageneration: {}'.format(event['metageneration']))
-    print('Created: {}'.format(event['timeCreated']))
-    print('Updated: {}'.format(event['updated']))
+    firestore_truisms = get_firestore_truisms()
+    print(f"Firestore Truisms: {len(firestore_truisms)}")
+
+    # add new truisms
+    for text in truisms:
+        if text not in firestore_truisms:
+            truism = truisms[text]
+            print(f"Adding: {text}...")
+            client.collection("truisms").document(text).set(truism)
+
+    # delete truisms
+    for text in firestore_truisms:
+        if text not in truisms:
+            print(f"Deleting: {text}...")
+            client.collection("truisms").document(text).delete()
+
+    # update truisms
+    for text in truisms:
+        if text not in firestore_truisms:
+            continue
+        truism = truisms[text]
+        if  truism != firestore_truisms[text]:
+            print(f"Updating: {text}...")
+            client.collection("truisms").document(text).set(truism)
+
+
+if __name__ == "__main__":
+    event = {
+        "bucket": "lukwam-truisms",
+        "file": "truisms.txt",
+    }
+    update(event, None)

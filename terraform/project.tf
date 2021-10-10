@@ -13,12 +13,12 @@ resource "google_project" "project" {
   skip_delete         = false
 }
 
-
 resource "google_project_service" "services" {
   for_each = toset([
     "appengine.googleapis.com",
     "cloudbuild.googleapis.com",
     "cloudfunctions.googleapis.com",
+    "firestore.googleapis.com",
   ])
   service                    = each.key
   disable_dependent_services = true
