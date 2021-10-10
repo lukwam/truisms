@@ -1,12 +1,12 @@
 ---
 steps:
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
-    dir: functions/slack
+    dir: functions/alexa
     entrypoint: gcloud
     args:
       - functions
       - deploy
-      - slack
+      - alexa
       - --allow-unauthenticated
       - --memory=256MB
       - --project=${PROJECT_ID}
