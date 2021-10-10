@@ -20,8 +20,9 @@ steps:
       - SLACK_CLIENT_ID
       - SLACK_CLIENT_SECRET
 
-secretManager:
-  - versionName: projects/lukwam-truisms/secrets/slack-client-id/versions/latest
-    env: SLACK_CLIENT_ID
-  - versionName: projects/lukwam-truisms/secrets/slack-client-secret/versions/latest
-    env: SLACK_CLIENT_SECRET
+availableSecrets:
+  secretManager:
+    - versionName: projects/lukwam-truisms/secrets/slack-client-id/versions/latest
+      env: SLACK_CLIENT_ID
+    - versionName: projects/lukwam-truisms/secrets/slack-client-secret/versions/latest
+      env: SLACK_CLIENT_SECRET
