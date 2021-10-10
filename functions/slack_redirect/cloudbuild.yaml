@@ -1,12 +1,12 @@
 ---
 steps:
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
-    dir: functions/slack-redirect
+    dir: functions/slack_redirect
     entrypoint: gcloud
     args:
       - functions
       - deploy
-      - slack-redirect
+      - slack_redirect
       - --allow-unauthenticated
       - --memory=256MB
       - --project=${PROJECT_ID}
