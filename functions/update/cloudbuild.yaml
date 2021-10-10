@@ -1,0 +1,17 @@
+---
+steps:
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
+    dir: functions/update
+    entrypoint: gcloud
+    args:
+      - functions
+      - deploy
+      - update
+      - --memory=256MB
+      - --project=${PROJECT_ID}
+      - --region=us-east4
+      - --runtime=python39
+      - --timeout=300
+      - --trigger-event=google.storage.object.finalize
+      - --trigger-resource=${_TRUISMS_BUCKET}
+      - -q
