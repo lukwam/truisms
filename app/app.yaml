@@ -6,3 +6,4 @@ handlers:
     static_dir: Fonts
   - url: /.*
     secure: always
+    script: auto
