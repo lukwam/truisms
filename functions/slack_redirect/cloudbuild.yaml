@@ -12,7 +12,7 @@ steps:
       - --project=${PROJECT_ID}
       - --region=us-east4
       - --runtime=python39
-      - --set-env-vars=GCP_PROJECT=${PROJECT_ID},SLACK_CLIENT_ID=$$SLACK_CLIENT_ID,SLACK_CLIENT_SECRET=$$SLACK_CLIENT_SECRET
+      - --set-env-vars=SLACK_CLIENT_ID=${SLACK_CLIENT_ID},SLACK_CLIENT_SECRET=${SLACK_CLIENT_SECRET}
       - --timeout=30
       - --trigger-http
       - -q
@@ -22,7 +22,7 @@ steps:
 
 availableSecrets:
   secretManager:
-    - versionName: projects/lukwam-truisms/secrets/slack-client-id/versions/latest
+    - versionName: projects/${PROJECT_ID}/secrets/slack-client-id/versions/latest
       env: SLACK_CLIENT_ID
-    - versionName: projects/lukwam-truisms/secrets/slack-client-secret/versions/latest
+    - versionName: projects/${PROJECT_ID}/secrets/slack-client-secret/versions/latest
       env: SLACK_CLIENT_SECRET
