@@ -25,6 +25,33 @@ resource "google_cloudbuild_trigger" "deploy-app" {
   ]
 }
 
+resource "google_cloudbuild_trigger" "deploy-alexa-function" {
+  provider       = google-beta
+  name           = "deploy-alexa-function"
+  description    = "Deploy Alexa Function"
+  filename       = "functions/alexa/cloudbuild.yaml"
+  project        = google_project.project.project_id
+  included_files = [
+    "functions/alexa/**",
+  ]
+  ignored_files = [
+    "functions/alexa/*.md",
+    "functions/alexa/*.sh",
+  ]
+
+  github {
+    name     = var.repo
+    owner    = var.github_login
+    push {
+      branch = var.branch
+    }
+  }
+
+  depends_on = [
+    google_project_service.services["cloudbuild.googleapis.com"]
+  ]
+}
+
 resource "google_cloudbuild_trigger" "deploy-assistant-function" {
   provider       = google-beta
   name           = "deploy-assistant-function"

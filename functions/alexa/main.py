@@ -4,15 +4,22 @@ import random
 from google.cloud import firestore
 
 
-def assistant(request):
+def alexa(request):
     """Return a Truism."""
     ref = firestore.Client().collection("truisms")
     truisms = list(ref.stream())
     truism = random.choice(truisms).id
     headers = {"Content-Type": "application/json"}
     response = {
-        "fulfillmentText": truism,
-        "source": "lukwam-truisms.appspot.com",
+        "version": "1.0",
+        "sessionAttributes": {},
+        "response": {
+            "outputSpeech": {
+                "type": "PlainText",
+                "text": truism,
+                "playBehavior": "REPLACE_ENQUEUED"
+            },
+        }
     }
     response_text = json.dumps(response, indent=2, sort_keys=True)
     print(response_text)
@@ -20,4 +27,4 @@ def assistant(request):
 
 
 if __name__ == "__main__":
-    assistant(None)
+    alexa(None)
