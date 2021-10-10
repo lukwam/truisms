@@ -20,6 +20,7 @@ resource "google_project_service" "services" {
     "cloudfunctions.googleapis.com",
     "cloudresourcemanager.googleapis.com",
     "firestore.googleapis.com",
+    "secretmanager.googleapis.com",
   ])
   service                    = each.key
   disable_dependent_services = true
@@ -33,6 +34,7 @@ resource "google_project_iam_member" "cloudbuild" {
     "roles/cloudfunctions.developer",
     "roles/cloudbuild.builds.builder",
     "roles/iam.serviceAccountUser",
+    "roles/secretmanager.secretAccessor",
   ])
   project = google_project.project.project_id
   role    = each.key
@@ -40,4 +42,13 @@ resource "google_project_iam_member" "cloudbuild" {
   depends_on = [
     google_project_service.services["cloudbuild.googleapis.com"],
   ]
+}
+
+resource "google_project_iam_member" "admin-lukwam-dev" {
+  for_each = toset([
+    "roles/secretmanager.secretAccessor",
+  ])
+  project = google_project.project.project_id
+  role    = each.key
+  member  = "user:admin@lukwam.dev"
 }
