@@ -1,0 +1,27 @@
+---
+steps:
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
+    dir: functions/slack-redirect
+    entrypoint: gcloud
+    args:
+      - functions
+      - deploy
+      - slack-redirect
+      - --allow-unauthenticated
+      - --memory=256MB
+      - --project=${PROJECT_ID}
+      - --region=us-east4
+      - --runtime=python39
+      - --set-env-vars=GCP_PROJECT=${PROJECT_ID},SLACK_CLIENT_ID=$$SLACK_CLIENT_ID,SLACK_CLIENT_SECRET=$$SLACK_CLIENT_SECRET
+      - --timeout=30
+      - --trigger-http
+      - -q
+    secretEnv:
+      - SLACK_CLIENT_ID
+      - SLACK_CLIENT_SECRET
+
+secretManager:
+  - versionName: projects/lukwam-truisms/secrets/slack-client-id/versions/latest
+    env: SLACK_CLIENT_ID
+  - versionName: projects/lukwam-truisms/secrets/slack-client-secret/versions/latest
+    env: SLACK_CLIENT_SECRET
