@@ -1,0 +1,6 @@
+---
+runtime: python39
+
+handlers:
+  - url: /Fonts
+    static_dir: Fonts
