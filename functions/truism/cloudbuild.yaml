@@ -1,0 +1,16 @@
+---
+steps:
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
+    dir: functions/truism
+    entrypoint: gcloud
+    args:
+      - functions
+      - deploy
+      - truism
+      - --memory=256MB
+      - --project=${PROJECT_ID}
+      - --region=us-east4
+      - --runtime=python39
+      - --timeout=30
+      - --trigger-http
+      - -q
