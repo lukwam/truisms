@@ -56,6 +56,33 @@ resource "google_cloudbuild_trigger" "deploy-update-function" {
   ]
 }
 
+resource "google_cloudbuild_trigger" "deploy-truism-function" {
+  provider       = google-beta
+  name           = "deploy-truism-function"
+  description    = "Deploy Truism Function"
+  filename       = "functions/truism/cloudbuild.yaml"
+  project        = google_project.project.project_id
+  included_files = [
+    "functions/truism/**",
+  ]
+  ignored_files = [
+    "functions/truism/*.md",
+    "functions/truism/*.sh",
+  ]
+
+  github {
+    name     = var.repo
+    owner    = var.github_login
+    push {
+      branch = var.branch
+    }
+  }
+
+  depends_on = [
+    google_project_service.services["cloudbuild.googleapis.com"]
+  ]
+}
+
 resource "google_cloudbuild_trigger" "update-truisms" {
   provider       = google-beta
   name           = "update-truisms"
