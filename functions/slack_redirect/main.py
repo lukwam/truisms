@@ -36,10 +36,16 @@ def slack_redirect(request):
     # authorize the app
     response = requests.post(url, headers=headers, params=params)
 
-    # save install to firestore
-    save_install(response.json())
+    response_json = response.json()
+    if response_json.get("ok"):
 
-    return redirect(f"https://slack.com/apps/{APP_ID}")
+        # save install to firestore
+        save_install(response.json())
+
+        return redirect(f"https://slack.com/apps/{APP_ID}")
+
+    print(f"Failed: {response_json}")
+    return "Failed"
 
 
 if __name__ == "__main__":
