@@ -5,9 +5,11 @@ resource "google_project" "project" {
   billing_account = data.google_billing_account.default.id
 
   labels = {
-    app           = "truisms"
-    billing       = lower(data.google_billing_account.default.id),
+    app      = "truisms",
+    billing  = lower(data.google_billing_account.default.id),
+    firebase = "enabled",
   }
+
 
   auto_create_network = false
   skip_delete         = false

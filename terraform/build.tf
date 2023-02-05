@@ -1,9 +1,9 @@
 resource "google_cloudbuild_trigger" "deploy-app" {
-  provider       = google-beta
-  name           = "deploy-app"
-  description    = "Deploy App"
-  filename       = "app/cloudbuild.yaml"
-  project        = google_project.project.project_id
+  provider    = google-beta
+  name        = "deploy-app"
+  description = "Deploy App"
+  filename    = "app/cloudbuild.yaml"
+  project     = google_project.project.project_id
   included_files = [
     "app/**",
   ]
@@ -13,8 +13,8 @@ resource "google_cloudbuild_trigger" "deploy-app" {
   ]
 
   github {
-    name     = var.repo
-    owner    = var.github_login
+    name  = var.repo
+    owner = var.github_login
     push {
       branch = var.branch
     }
@@ -26,11 +26,11 @@ resource "google_cloudbuild_trigger" "deploy-app" {
 }
 
 resource "google_cloudbuild_trigger" "deploy-alexa-function" {
-  provider       = google-beta
-  name           = "deploy-alexa-function"
-  description    = "Deploy Alexa Function"
-  filename       = "functions/alexa/cloudbuild.yaml"
-  project        = google_project.project.project_id
+  provider    = google-beta
+  name        = "deploy-alexa-function"
+  description = "Deploy Alexa Function"
+  filename    = "functions/alexa/cloudbuild.yaml"
+  project     = google_project.project.project_id
   included_files = [
     "functions/alexa/**",
   ]
@@ -40,8 +40,8 @@ resource "google_cloudbuild_trigger" "deploy-alexa-function" {
   ]
 
   github {
-    name     = var.repo
-    owner    = var.github_login
+    name  = var.repo
+    owner = var.github_login
     push {
       branch = var.branch
     }
@@ -53,11 +53,11 @@ resource "google_cloudbuild_trigger" "deploy-alexa-function" {
 }
 
 resource "google_cloudbuild_trigger" "deploy-assistant-function" {
-  provider       = google-beta
-  name           = "deploy-assistant-function"
-  description    = "Deploy Assistant Function"
-  filename       = "functions/assistant/cloudbuild.yaml"
-  project        = google_project.project.project_id
+  provider    = google-beta
+  name        = "deploy-assistant-function"
+  description = "Deploy Assistant Function"
+  filename    = "functions/assistant/cloudbuild.yaml"
+  project     = google_project.project.project_id
   included_files = [
     "functions/assistant/**",
   ]
@@ -67,8 +67,8 @@ resource "google_cloudbuild_trigger" "deploy-assistant-function" {
   ]
 
   github {
-    name     = var.repo
-    owner    = var.github_login
+    name  = var.repo
+    owner = var.github_login
     push {
       branch = var.branch
     }
@@ -80,11 +80,11 @@ resource "google_cloudbuild_trigger" "deploy-assistant-function" {
 }
 
 resource "google_cloudbuild_trigger" "deploy-slack-function" {
-  provider       = google-beta
-  name           = "deploy-slack-function"
-  description    = "Deploy Slack Function"
-  filename       = "functions/slack/cloudbuild.yaml"
-  project        = google_project.project.project_id
+  provider    = google-beta
+  name        = "deploy-slack-function"
+  description = "Deploy Slack Function"
+  filename    = "functions/slack/cloudbuild.yaml"
+  project     = google_project.project.project_id
   included_files = [
     "functions/slack/**",
   ]
@@ -94,8 +94,8 @@ resource "google_cloudbuild_trigger" "deploy-slack-function" {
   ]
 
   github {
-    name     = var.repo
-    owner    = var.github_login
+    name  = var.repo
+    owner = var.github_login
     push {
       branch = var.branch
     }
@@ -107,11 +107,11 @@ resource "google_cloudbuild_trigger" "deploy-slack-function" {
 }
 
 resource "google_cloudbuild_trigger" "deploy-slack-redirect-function" {
-  provider       = google-beta
-  name           = "deploy-slack-redirect-function"
-  description    = "Deploy Slack Redirect Function"
-  filename       = "functions/slack_redirect/cloudbuild.yaml"
-  project        = google_project.project.project_id
+  provider    = google-beta
+  name        = "deploy-slack-redirect-function"
+  description = "Deploy Slack Redirect Function"
+  filename    = "functions/slack_redirect/cloudbuild.yaml"
+  project     = google_project.project.project_id
   included_files = [
     "functions/slack_redirect/**",
   ]
@@ -121,8 +121,8 @@ resource "google_cloudbuild_trigger" "deploy-slack-redirect-function" {
   ]
 
   github {
-    name     = var.repo
-    owner    = var.github_login
+    name  = var.repo
+    owner = var.github_login
     push {
       branch = var.branch
     }
@@ -134,11 +134,11 @@ resource "google_cloudbuild_trigger" "deploy-slack-redirect-function" {
 }
 
 resource "google_cloudbuild_trigger" "deploy-truism-function" {
-  provider       = google-beta
-  name           = "deploy-truism-function"
-  description    = "Deploy Truism Function"
-  filename       = "functions/truism/cloudbuild.yaml"
-  project        = google_project.project.project_id
+  provider    = google-beta
+  name        = "deploy-truism-function"
+  description = "Deploy Truism Function"
+  filename    = "functions/truism/cloudbuild.yaml"
+  project     = google_project.project.project_id
   included_files = [
     "functions/truism/**",
   ]
@@ -148,8 +148,8 @@ resource "google_cloudbuild_trigger" "deploy-truism-function" {
   ]
 
   github {
-    name     = var.repo
-    owner    = var.github_login
+    name  = var.repo
+    owner = var.github_login
     push {
       branch = var.branch
     }
@@ -161,11 +161,11 @@ resource "google_cloudbuild_trigger" "deploy-truism-function" {
 }
 
 resource "google_cloudbuild_trigger" "deploy-update-function" {
-  provider       = google-beta
-  name           = "deploy-update-function"
-  description    = "Deploy Update Function"
-  filename       = "functions/update/cloudbuild.yaml"
-  project        = google_project.project.project_id
+  provider    = google-beta
+  name        = "deploy-update-function"
+  description = "Deploy Update Function"
+  filename    = "functions/update/cloudbuild.yaml"
+  project     = google_project.project.project_id
   included_files = [
     "functions/update/**",
   ]
@@ -175,8 +175,8 @@ resource "google_cloudbuild_trigger" "deploy-update-function" {
   ]
 
   github {
-    name     = var.repo
-    owner    = var.github_login
+    name  = var.repo
+    owner = var.github_login
     push {
       branch = var.branch
     }
@@ -192,25 +192,25 @@ resource "google_cloudbuild_trigger" "deploy-update-function" {
 }
 
 resource "google_cloudbuild_trigger" "update-truisms" {
-  provider       = google-beta
-  name           = "update-truisms"
-  description    = "Update Truisms"
-  project        = google_project.project.project_id
+  provider    = google-beta
+  name        = "update-truisms"
+  description = "Update Truisms"
+  project     = google_project.project.project_id
   included_files = [
     "truisms.txt",
   ]
 
   build {
     step {
-      name = "gcr.io/cloud-builders/gsutil"
-      args = ["cp", "truisms.txt", "gs://${google_storage_bucket.truisms.name}/truisms.txt"]
+      name    = "gcr.io/cloud-builders/gsutil"
+      args    = ["cp", "truisms.txt", "gs://${google_storage_bucket.truisms.name}/truisms.txt"]
       timeout = "30s"
     }
   }
 
   github {
-    name     = var.repo
-    owner    = var.github_login
+    name  = var.repo
+    owner = var.github_login
     push {
       branch = var.branch
     }
