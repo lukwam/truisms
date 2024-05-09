@@ -9,7 +9,7 @@ def truism(request):
     truisms = list(ref.stream())
     truism = random.choice(truisms).id
     print(truism)
-    return(truism)
+    return truism
 
 
 if __name__ == "__main__":

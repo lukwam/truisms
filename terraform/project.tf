@@ -10,7 +10,6 @@ resource "google_project" "project" {
     firebase = "enabled",
   }
 
-
   auto_create_network = false
   skip_delete         = false
 }
@@ -18,6 +17,7 @@ resource "google_project" "project" {
 resource "google_project_service" "services" {
   for_each = toset([
     "appengine.googleapis.com",
+    "artifactregistry.googleapis.com",
     "cloudbuild.googleapis.com",
     "cloudfunctions.googleapis.com",
     "cloudresourcemanager.googleapis.com",
